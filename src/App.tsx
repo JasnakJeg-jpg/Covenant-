@@ -1,6 +1,9 @@
+ import { useEffect, useState } from 'react'
 import { NavLink, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './lib/AuthContext'
+import { supabase } from './lib/supabase'
 import AuthPage from './AuthPage'
+import ProfileSetup from './ProfileSetup'
 
 const tabs = [
   { to: '/', label: 'Home' },
@@ -21,11 +24,32 @@ function Page({ title, text }: { title: string; text: string }) {
 
 function MySpace() {
   const { session, loading, signOut } = useAuth()
+  const [profileDone, setProfileDone] = useState<boolean | null>(null)
+  const [firstName, setFirstName] = useState('')
+
+  useEffect(() => {
+    if (!session) return
+    supabase
+      .from('profiles')
+      .select('onboarding_completed, first_name')
+      .eq('id', session.user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        setProfileDone(!!data?.onboarding_completed)
+        setFirstName(data?.first_name ?? '')
+      })
+  }, [session])
+
   if (loading) return <Page title="My Space" text="Loading…" />
   if (!session) return <AuthPage />
+  if (profileDone === null) return <Page title="My Space" text="Loading…" />
+  if (!profileDone) return <ProfileSetup onDone={() => setProfileDone(true)} />
+
   return (
     <section className="mx-auto max-w-2xl p-6">
-      <h1 className="font-serif text-3xl text-sage-900">My Space</h1>
+      <h1 className="font-serif text-3xl text-sage-900">
+        {firstName ? `Hello, ${firstName}` : 'My Space'}
+      </h1>
       <p className="mt-3 text-ink/80">Signed in as {session.user.email}</p>
       <button
         onClick={signOut}
