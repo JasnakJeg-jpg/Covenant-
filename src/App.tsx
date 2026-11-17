@@ -1,4 +1,6 @@
 import { NavLink, Route, Routes } from 'react-router-dom'
+import { AuthProvider, useAuth } from './lib/AuthContext'
+import AuthPage from './AuthPage'
 
 const tabs = [
   { to: '/', label: 'Home' },
@@ -17,7 +19,25 @@ function Page({ title, text }: { title: string; text: string }) {
   )
 }
 
-export default function App() {
+function MySpace() {
+  const { session, loading, signOut } = useAuth()
+  if (loading) return <Page title="My Space" text="Loading…" />
+  if (!session) return <AuthPage />
+  return (
+    <section className="mx-auto max-w-2xl p-6">
+      <h1 className="font-serif text-3xl text-sage-900">My Space</h1>
+      <p className="mt-3 text-ink/80">Signed in as {session.user.email}</p>
+      <button
+        onClick={signOut}
+        className="mt-6 rounded-xl border border-sage-300 px-4 py-2 text-sage-700"
+      >
+        Sign out
+      </button>
+    </section>
+  )
+}
+
+function Shell() {
   return (
     <div className="min-h-screen pb-20">
       <main>
@@ -26,7 +46,7 @@ export default function App() {
           <Route path="/bible" element={<Page title="Bible" text="Scripture library and reading plans will live here." />} />
           <Route path="/studies" element={<Page title="Studies" text="Guided couples Bible studies will live here." />} />
           <Route path="/community" element={<Page title="Community" text="The anonymous community will live here." />} />
-          <Route path="/my-space" element={<Page title="My Space" text="Your prayers, notes and settings will live here." />} />
+          <Route path="/my-space" element={<MySpace />} />
         </Routes>
       </main>
 
@@ -48,5 +68,13 @@ export default function App() {
         ))}
       </nav>
     </div>
+  )
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <Shell />
+    </AuthProvider>
   )
 }
