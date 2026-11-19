@@ -6,7 +6,7 @@ import { supabase } from './supabase'
 type AuthValue = {
   session: Session | null
   loading: boolean
-  signUp: (email: string, password: string, displayName: string) => Promise<string | null>
+  signUp: (email: string, password: string, meta: { display_name: string; usage: string }) => Promise<string | null>
   signIn: (email: string, password: string) => Promise<string | null>
   signOut: () => Promise<void>
 }
@@ -29,13 +29,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const value: AuthValue = {
     session,
     loading,
-    signUp: async (email, password, displayName) => {
+    signUp: async (email, password, meta) => {
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: window.location.origin + '/my-space',
-          data: { display_name: displayName },
+          data: meta,
         },
       })
       return error ? error.message : null

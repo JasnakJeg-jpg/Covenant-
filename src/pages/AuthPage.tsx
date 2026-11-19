@@ -1,11 +1,18 @@
 import { useState } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import Logo from '../components/Logo'
+import UsagePicker from '../components/UsagePicker'
+import { rememberInvite } from '../lib/usage'
+import type { Usage } from '../lib/usage'
 import { useAuth } from '../lib/AuthContext'
 
 export default function AuthPage({ mode }: { mode: 'signin' | 'signup' }) {
   const { session, signIn, signUp } = useAuth()
   const navigate = useNavigate()
+  const [params] = useSearchParams()
+  const invite = params.get('invite')
+  if (invite) rememberInvite(invite)
+  const [usage, setUsage] = useState<Usage>(invite ? 'couple' : 'solo')
   const [displayName, setDisplayName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -24,7 +31,7 @@ export default function AuthPage({ mode }: { mode: 'signin' | 'signup' }) {
     }
     setBusy(true)
     const error =
-      mode === 'signup' ? await signUp(email, password, displayName.trim()) : await signIn(email, password)
+      mode === 'signup' ? await signUp(email, password, { display_name: displayName.trim(), usage }) : await signIn(email, password)
     setBusy(false)
     if (error) setMessage(error)
     else if (mode === 'signup') setSent(true)
@@ -49,9 +56,15 @@ export default function AuthPage({ mode }: { mode: 'signin' | 'signup' }) {
           <>
             <h1 className="text-3xl">{isSignUp ? 'Create your account' : 'Welcome back'}</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              {isSignUp ? 'Begin on your own — you can invite your partner later.' : 'Sign in to continue where you left off.'}
+              {isSignUp ? 'It only takes a minute, and you can change anything later.' : 'Sign in to continue where you left off.'}
             </p>
+            {isSignUp && invite && (
+              <p className="mt-4 rounded-xl bg-secondary px-4 py-3 text-sm text-secondary-foreground">
+                Your partner has invited you. After you’ve set up your profile, their code will be filled in so you can link up in one tap.
+              </p>
+            )}
             <form onSubmit={submit} className="mt-6 space-y-4">
+              {isSignUp && <UsagePicker value={usage} onChange={setUsage} />}
               {isSignUp && (
                 <label className="block text-sm font-medium">
                   Display name
