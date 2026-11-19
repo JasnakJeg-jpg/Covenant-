@@ -59,7 +59,7 @@ export default function Mentor() {
     const counts: Record<string, number> = {}
     for (const p of progress ?? []) if (p.completed_at) counts[p.couple_id] = (counts[p.couple_id] ?? 0) + 1
     setCompletedBy(counts)
-    setShared((answers ?? []) as SharedAnswer[])
+    setShared((answers ?? []) as unknown as SharedAnswer[])
     const prayerList = (reqs ?? []) as PrayerRequest[]
     setPrayers(prayerList)
     setNames(
