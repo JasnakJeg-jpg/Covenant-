@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { error } = await supabase.auth.signUp({
         email,
         password,
-        options: { emailRedirectTo: window.location.origin + '/my-space' },
+        options: { emailRedirectTo: window.location.href },
       })
       return error ? error.message : null
     },

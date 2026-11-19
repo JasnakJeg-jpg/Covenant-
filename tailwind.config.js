@@ -4,20 +4,26 @@ export default {
   theme: {
     extend: {
       colors: {
-        cream: '#FAF6EE',
+        ground: '#F3F5F4',
+        ink: '#18212F',
+        muted: '#556070',
+        line: '#D6DCD9',
         sage: {
-          50: '#F3F6F1',
-          100: '#E3EBDF',
-          300: '#A9BFA2',
-          500: '#7A9A71',
-          700: '#53704B',
-          900: '#2F4229',
+          50: '#F0F6F3',
+          100: '#E3EFEA',
+          300: '#A9D8C8',
+          700: '#2F6B5B',
+          900: '#1F4D41',
         },
-        ink: '#2B2B27',
+        flag: {
+          bg: '#FBF0DC',
+          ink: '#6E4A0E',
+          line: '#E9C98F',
+        },
       },
       fontFamily: {
-        sans: ['system-ui', 'sans-serif'],
-        serif: ['Georgia', 'serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Manrope', 'Inter', 'system-ui', 'sans-serif'],
       },
     },
   },

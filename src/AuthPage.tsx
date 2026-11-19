@@ -25,7 +25,9 @@ export default function AuthPage() {
 
   return (
     <section className="mx-auto max-w-md p-6">
-      <h1 className="font-serif text-3xl text-sage-900">
+      <p className="font-display text-sm font-extrabold tracking-widest text-sage-700">COVENANT</p>
+      <p className="mt-1 text-sm text-muted">Marriage preparation with your church.</p>
+      <h1 className="mt-6 font-display text-3xl font-extrabold">
         {mode === 'signin' ? 'Welcome back' : 'Create your account'}
       </h1>
       <form onSubmit={submit} className="mt-6 space-y-4">
@@ -36,7 +38,7 @@ export default function AuthPage() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-sage-300 bg-white p-3"
+            className="mt-1 w-full rounded-xl border border-line bg-white p-3"
           />
         </label>
         <label className="block text-sm">
@@ -46,18 +48,18 @@ export default function AuthPage() {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-sage-300 bg-white p-3"
+            className="mt-1 w-full rounded-xl border border-line bg-white p-3"
           />
         </label>
         <button
           type="submit"
           disabled={busy}
-          className="w-full rounded-xl bg-sage-700 p-3 text-white disabled:opacity-60"
+          className="w-full rounded-xl bg-ink p-3 font-semibold text-white disabled:opacity-60"
         >
           {busy ? 'Please wait…' : mode === 'signin' ? 'Sign in' : 'Sign up'}
         </button>
       </form>
-      {message && <p className="mt-4 text-sm text-ink/80" role="status">{message}</p>}
+      {message && <p className="mt-4 text-sm text-muted" role="status">{message}</p>}
       <button
         type="button"
         onClick={() => { setMode(mode === 'signin' ? 'signup' : 'signin'); setMessage(null) }}
