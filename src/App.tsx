@@ -4,7 +4,7 @@ import { AuthProvider, useAuth } from './lib/AuthContext'
 import { MeProvider, useMe } from './lib/data'
 import type { Me } from './lib/data'
 import { Card, Loading, Screen, Title } from './components/ui'
-import AuthPage from './AuthPage'
+import AuthPage, { NewPasswordPage } from './AuthPage'
 import ProfileSetup from './ProfileSetup'
 import Welcome, { AcceptInvite } from './pages/Welcome'
 import Home from './pages/Home'
@@ -145,9 +145,10 @@ function SignedIn() {
 }
 
 function Gate() {
-  const { session, loading } = useAuth()
+  const { session, loading, recovering } = useAuth()
   if (loading) return <Loading />
   if (!session) return <AuthPage />
+  if (recovering) return <NewPasswordPage />
   return <SignedIn />
 }
 
