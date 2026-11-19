@@ -16,6 +16,7 @@ export default function ProfileSetup({ onDone }: { onDone: () => void }) {
   const [firstName, setFirstName] = useState('')
   const [dob, setDob] = useState('')
   const [gender, setGender] = useState('')
+  const [intent, setIntent] = useState('')
   const [message, setMessage] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
 
@@ -33,6 +34,7 @@ export default function ProfileSetup({ onDone }: { onDone: () => void }) {
       first_name: firstName.trim(),
       date_of_birth: dob,
       gender: gender || null,
+      intent: intent || null,
       onboarding_completed: true,
     })
     setBusy(false)
@@ -76,6 +78,20 @@ export default function ProfileSetup({ onDone }: { onDone: () => void }) {
             <option value="">Prefer not to say</option>
             <option value="Woman">Woman</option>
             <option value="Man">Man</option>
+          </select>
+        </label>
+        <label className="block text-sm">
+          What brings you to Covenant? (optional)
+          <select
+            value={intent}
+            onChange={(e) => setIntent(e.target.value)}
+            className="mt-1 w-full rounded-xl border border-sage-300 bg-white p-3"
+          >
+            <option value="">Prefer not to say</option>
+            <option value="married">I'm married</option>
+            <option value="engaged">I'm engaged</option>
+            <option value="preparing_single">I'm single and preparing for marriage</option>
+            <option value="study_single">I'm single and here to study</option>
           </select>
         </label>
         <button
