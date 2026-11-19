@@ -42,9 +42,9 @@ export default function ProfileSetup({ onDone }: { onDone: () => void }) {
 
   return (
     <section className="mx-auto max-w-md p-6">
-      <h1 className="font-serif text-3xl text-sage-900">Tell us about you</h1>
-      <p className="mt-2 text-sm text-ink/70">
-        This stays private. It is never shown to other members.
+      <h1 className="font-display text-3xl font-extrabold">Tell us about you</h1>
+      <p className="mt-2 text-sm text-muted">
+        Your first name is shown to your partner, your mentors and your pastor. Everything else stays private.
       </p>
       <form onSubmit={submit} className="mt-6 space-y-4">
         <label className="block text-sm">
@@ -53,7 +53,7 @@ export default function ProfileSetup({ onDone }: { onDone: () => void }) {
             required
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-sage-300 bg-white p-3"
+            className="mt-1 w-full rounded-xl border border-line bg-white p-3"
           />
         </label>
         <label className="block text-sm">
@@ -63,7 +63,7 @@ export default function ProfileSetup({ onDone }: { onDone: () => void }) {
             required
             value={dob}
             onChange={(e) => setDob(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-sage-300 bg-white p-3"
+            className="mt-1 w-full rounded-xl border border-line bg-white p-3"
           />
         </label>
         <label className="block text-sm">
@@ -71,7 +71,7 @@ export default function ProfileSetup({ onDone }: { onDone: () => void }) {
           <select
             value={gender}
             onChange={(e) => setGender(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-sage-300 bg-white p-3"
+            className="mt-1 w-full rounded-xl border border-line bg-white p-3"
           >
             <option value="">Prefer not to say</option>
             <option value="Woman">Woman</option>
@@ -81,12 +81,12 @@ export default function ProfileSetup({ onDone }: { onDone: () => void }) {
         <button
           type="submit"
           disabled={busy}
-          className="w-full rounded-xl bg-sage-700 p-3 text-white disabled:opacity-60"
+          className="w-full rounded-xl bg-ink p-3 font-semibold text-white disabled:opacity-60"
         >
           {busy ? 'Saving…' : 'Continue'}
         </button>
       </form>
-      {message && <p className="mt-4 text-sm text-ink/80" role="status">{message}</p>}
+      {message && <p className="mt-4 text-sm text-muted" role="status">{message}</p>}
     </section>
   )
 }
