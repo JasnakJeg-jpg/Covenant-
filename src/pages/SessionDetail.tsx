@@ -35,7 +35,7 @@ export default function SessionDetail() {
       setNotFound(true)
       return
     }
-    const done = new Set((progress ?? []).filter((r) => r.completed_at).map((r) => r.session_id as string))
+    const done = new Set<string>((progress ?? []).filter((r) => r.completed_at).map((r) => r.session_id as string))
     setSession(s)
     setUnlocked(isUnlocked(s, list, done, couple.wedding_date))
     setCompletedAt((progress ?? []).find((r) => r.session_id === s.id)?.completed_at ?? null)

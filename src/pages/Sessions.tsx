@@ -22,7 +22,7 @@ export default function Sessions() {
       .select('session_id, completed_at')
       .eq('couple_id', couple.id)
       .then(({ data }) =>
-        setCompleted(new Set((data ?? []).filter((r) => r.completed_at).map((r) => r.session_id as string))),
+        setCompleted(new Set<string>((data ?? []).filter((r) => r.completed_at).map((r) => r.session_id as string))),
       )
   }, [couple.id])
 
